@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        
+    <string name="title_no_internet_access">Conntectivity</string>
+    <string name="msg_no_internet_access">لا يوجد إتصال بالإنترنت ..</string>
+    
+    <string name="msg_no_google_play_service">Google Play services are not available...</string>
+    
+</resources>

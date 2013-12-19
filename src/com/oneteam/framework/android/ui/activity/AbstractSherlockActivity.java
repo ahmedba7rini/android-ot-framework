@@ -1,0 +1,119 @@
+package com.oneteam.framework.android.ui.activity;
+
+import java.util.Hashtable;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.oneteam.framework.android.service.IListener;
+import com.oneteam.framework.android.service.IService;
+
+public abstract class AbstractSherlockActivity extends SherlockFragmentActivity
+		implements IActivity {
+
+	protected boolean mRequiresUpdateView = true;
+
+	protected Hashtable<String, IListener> mListenerMap;
+
+	protected Hashtable<String, IService> mServiceMap;
+
+	protected BroadcastReceiver mUpdateScreenReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+
+			if (intent != null) {
+
+				Bundle extras = intent.getExtras();
+
+				if (extras != null && !extras.isEmpty()) {
+
+					mRequiresUpdateView |= extras.getBoolean(
+							IActivity.EXTRA_REQUIRES_UPDATE_VIEW, false);
+				}
+			}
+
+			boolean updated = onUpdateView(intent);
+
+			if (updated) {
+				mRequiresUpdateView = false;
+			}
+		}
+	};
+
+	public AbstractSherlockActivity() {
+
+		mListenerMap = new Hashtable<String, IListener>();
+
+		mServiceMap = new Hashtable<String, IService>();
+
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+
+		super.onCreate(savedInstanceState);
+
+		onCreateActivity(savedInstanceState);
+
+		IntentFilter filter = new IntentFilter(ACTION_UPDATE_SCREEN);
+
+		registerReceiver(mUpdateScreenReceiver, filter);
+	}
+
+	protected abstract void onCreateActivity(Bundle savedInstanceState);
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+//		mRequiresUpdateView = true;
+	}
+
+	@Override
+	public void addListener(IListener listener) {
+
+		if (mListenerMap == null) {
+
+			// FIXME: {Islam@240713}
+			// Throw NullPointerException about the listener map
+		}
+
+		if (listener == null) {
+
+			// FIXME: {Islam@240713}
+			// Throw NullPointerException about the passed listener
+		}
+
+		mListenerMap.put(listener.getName(), listener);
+	}
+
+	@Override
+	public void registerService(IService service) {
+	}
+
+	@Override
+	public void unregisterService(IService service) {
+	}
+
+	@Override
+	protected void onDestroy() {
+
+		super.onDestroy();
+
+		if (mUpdateScreenReceiver != null) {
+			unregisterReceiver(mUpdateScreenReceiver);
+		}
+	}
+
+	@Override
+	synchronized public boolean onUpdateView(Intent intent) {
+		// These is just for adding synchronization over method
+		return false;
+	}
+
+}
