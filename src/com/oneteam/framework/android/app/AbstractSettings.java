@@ -55,13 +55,38 @@ public abstract class AbstractSettings {
 		return prefs;
 	}
 
-	public void remove(String key) {
+	public boolean contains(int id) {
+
+		String key = AbstractApplication.getApplication().getString(id);
+
+		return contains(key);
+	}
+
+	public boolean contains(String key) {
+
+		SharedPreferences prefs = getSharedPreferences();
+
+		boolean found = prefs.contains(key);
+
+		return found;
+	}
+
+	public SharedPreferences.Editor remove(int id) {
+
+		String key = AbstractApplication.getApplication().getString(id);
+
+		return remove(key);
+	}
+
+	public SharedPreferences.Editor remove(String key) {
 
 		SharedPreferences.Editor editor = getSharedPreferences().edit();
 
 		editor.remove(key);
 
 		editor.commit();
+
+		return editor;
 	}
 
 	public SharedPreferences.Editor putBoolean(String key, boolean value) {
