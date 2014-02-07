@@ -112,4 +112,8 @@ public class ActionStatus<R, M> implements IJsonNode, Model {
 	public void writeToParcel(Parcel dest, int flags) {
 	}
 
+	@Override
+	public void readFromParcel(Parcel in) {
+	}
+
 }

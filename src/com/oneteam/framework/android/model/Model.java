@@ -16,6 +16,7 @@
 
 package com.oneteam.framework.android.model;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
@@ -23,5 +24,7 @@ import android.os.Parcelable;
  * 
  */
 public interface Model extends Parcelable {
+
+	public void readFromParcel(Parcel in);
 
 }
