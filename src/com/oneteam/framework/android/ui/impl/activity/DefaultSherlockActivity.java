@@ -28,6 +28,7 @@ import android.os.Bundle;
 
 import com.oneteam.framework.android.R;
 import com.oneteam.framework.android.net.Connectivity;
+import com.oneteam.framework.android.service.OnNetworkStateChangedListener;
 import com.oneteam.framework.android.ui.activity.AbstractSherlockActivity;
 import com.oneteam.framework.android.utils.Logger;
 
@@ -35,11 +36,12 @@ import com.oneteam.framework.android.utils.Logger;
  * @author islam
  * 
  */
-public class DefaultSherlockActivity extends AbstractSherlockActivity {
-
-	public static final String EXTRA_SESSION = "extra_session";
+public class DefaultSherlockActivity extends AbstractSherlockActivity implements
+		OnNetworkStateChangedListener {
 
 	private BroadcastReceiver mNetworkStateReceiver = null;
+
+	private OnNetworkStateChangedListener mNetworkStateChangedListener = null;
 
 	/*
 	 * (non-Javadoc)
@@ -49,24 +51,42 @@ public class DefaultSherlockActivity extends AbstractSherlockActivity {
 	 */
 	@Override
 	protected void onCreateActivity(Bundle savedInstanceState) {
-
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 
-		final Connectivity connectivity = new Connectivity();
+		if (mNetworkStateChangedListener != null) {
 
-		if (!connectivity.isConnected(getApplication())) {
+			final Connectivity connectivity = new Connectivity();
 
-			showNoInternetAccessWarning();
+			if (!connectivity.isConnected(getApplication())) {
 
-			Logger.v("DefaultSherlockActivity::onStart[]: Connectivity warning dialog is shown successfully");
+				showNoInternetAccessWarning();
+
+				Logger.v("DefaultSherlockActivity::onStart[]: Connectivity warning dialog is shown successfully");
+			}
 		}
 	}
 
-	protected void setupNetworkStateReceiver() {
+	/**
+	 * @return the mNetworkStateChangedListener
+	 */
+	public OnNetworkStateChangedListener getNetworkStateChangedListener() {
+		return mNetworkStateChangedListener;
+	}
+
+	/**
+	 * @param listener
+	 *            the mNetworkStateChangedListener to set
+	 */
+	public void setNetworkStateChangedListener(
+			OnNetworkStateChangedListener listener) {
+		mNetworkStateChangedListener = listener;
+	}
+
+	public void setupNetworkStateReceiver() {
 
 		if (mNetworkStateReceiver != null) {
 			return;
@@ -98,17 +118,11 @@ public class DefaultSherlockActivity extends AbstractSherlockActivity {
 				// Check the type of the connectivity
 				int type = networkInfo.getType();
 
-				if (ConnectivityManager.TYPE_MOBILE == type
-						|| ConnectivityManager.TYPE_WIFI == type
-						|| ConnectivityManager.TYPE_WIMAX == type) {
-
-					boolean isConnected = networkInfo.isConnectedOrConnecting();
-
-					if (!isConnected) {
-
-						showNoInternetAccessWarning();
-					}
+				if (mNetworkStateChangedListener == null) {
+					return;
 				}
+
+				mNetworkStateChangedListener.onChange(type, networkInfo);
 			}
 		};
 
@@ -149,6 +163,26 @@ public class DefaultSherlockActivity extends AbstractSherlockActivity {
 				unregisterReceiver(mNetworkStateReceiver);
 
 			} catch (Exception e) {
+			}
+		}
+	}
+
+	@Override
+	public void onChange(int type, NetworkInfo networkInfo) {
+
+		if (ConnectivityManager.TYPE_MOBILE == type
+				|| ConnectivityManager.TYPE_WIFI == type
+				|| ConnectivityManager.TYPE_WIMAX == type) {
+
+			boolean isConnected = networkInfo.isConnectedOrConnecting();
+
+			final Connectivity connectivity = new Connectivity();
+
+			isConnected |= connectivity.isConnected(getApplication());
+
+			if (!isConnected) {
+
+				showNoInternetAccessWarning();
 			}
 		}
 	}
