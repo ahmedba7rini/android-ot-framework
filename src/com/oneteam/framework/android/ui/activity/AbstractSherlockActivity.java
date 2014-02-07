@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.oneteam.framework.android.service.IListener;
@@ -87,7 +88,7 @@ public abstract class AbstractSherlockActivity extends SherlockFragmentActivity
 	protected void onResume() {
 		super.onResume();
 
-//		mRequiresUpdateView = true;
+		// mRequiresUpdateView = true;
 	}
 
 	@Override
@@ -130,6 +131,13 @@ public abstract class AbstractSherlockActivity extends SherlockFragmentActivity
 	synchronized public boolean onUpdateView(Intent intent) {
 		// These is just for adding synchronization over method
 		return false;
+	}
+
+	public void setViewVisibility(int resid, boolean visible) {
+
+		int state = visible ? View.VISIBLE : View.GONE;
+
+		findViewById(resid).setVisibility(state);
 	}
 
 }
