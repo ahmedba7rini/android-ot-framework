@@ -31,6 +31,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
 import com.oneteam.framework.android.R;
+import com.oneteam.framework.android.ui.viewmodel.IconPagerAdapter;
 
 /**
  * This widget implements the dynamic action bar tab behavior that can change

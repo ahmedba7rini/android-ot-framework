@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.oneteam.framework.android.ui.view;
+package com.oneteam.framework.android.ui.viewmodel;
 
 public interface IconPagerAdapter {
     /**
