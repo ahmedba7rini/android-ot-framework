@@ -30,6 +30,8 @@ public abstract class AbstractSplashActivity extends AbstractSherlockActivity {
 
 	protected Class<?> mTargetClass;
 
+	protected Bundle mTargetExtras;
+
 	protected BackgroundTask mBackgroundTask;
 
 	@Override
@@ -102,6 +104,10 @@ public abstract class AbstractSplashActivity extends AbstractSherlockActivity {
 
 	public void setTargetClass(Class<?> targetClass) {
 		mTargetClass = targetClass;
+	}
+
+	public void setTargetExtras(Bundle targetExtras) {
+		mTargetExtras = targetExtras;
 	}
 
 	abstract public void onPreExecute();
