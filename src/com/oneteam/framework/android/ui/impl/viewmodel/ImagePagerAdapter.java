@@ -36,7 +36,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.oneteam.framework.android.R;
 import com.oneteam.framework.android.model.Image;
 import com.oneteam.framework.android.ui.impl.view.UrlImageView;
-import com.oneteam.framework.android.ui.view.IconPagerAdapter;
+import com.oneteam.framework.android.ui.viewmodel.IconPagerAdapter;
 import com.oneteam.framework.android.utils.Logger;
 
 /**
