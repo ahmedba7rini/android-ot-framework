@@ -41,4 +41,14 @@
         <item name="android:maxHeight">4dip</item>
     </style>
 
+
+<!-- ViewPagerIndicator -->
+    <style name="Widget"></style>
+
+<!-- ViewPagerIndicator -->
+    <style name="Widget.IconPageIndicator" parent="Widget">
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+    </style>
+
 </resources>
