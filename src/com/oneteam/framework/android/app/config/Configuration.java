@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 OneTeam (IslamSamak)
+ * Copyright (C) 2013 OneTeam (IslamSamak : islamsamak01@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import java.util.concurrent.ThreadFactory;
  * <li>Set background tasks priority</li>
  * </ul>
  * 
- * @author islamsamak
+ * @author IslamSamak : islamsamak01@gmail.com
  * 
  */
 public final class Configuration {
