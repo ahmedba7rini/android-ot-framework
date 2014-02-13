@@ -64,7 +64,7 @@ public abstract class AbstractMapFragment<T extends MapModel> extends
 
 	private GoogleMap mGoogleMap;
 
-	private List<T> mItemsList;
+	private List<? extends MapModel> mItemsList;
 
 	private LatLng mCurrentLocation;
 
@@ -311,7 +311,7 @@ public abstract class AbstractMapFragment<T extends MapModel> extends
 		super.onDetach();
 	}
 
-	public void setItemsList(List<T> itemsList) {
+	public void setItemsList(List<? extends MapModel> itemsList) {
 		mItemsList = itemsList;
 
 		if (mItemsList != null && mItemsList.size() > 0) {
@@ -319,7 +319,7 @@ public abstract class AbstractMapFragment<T extends MapModel> extends
 		}
 	}
 
-	public List<T> getItemsList() {
+	public List<? extends MapModel> getItemsList() {
 		return mItemsList;
 	}
 
@@ -346,7 +346,7 @@ public abstract class AbstractMapFragment<T extends MapModel> extends
 		}
 	}
 
-	private void loadMarkerImage(MapModel model, Marker marker) {
+	protected void loadMarkerImage(MapModel model, Marker marker) {
 
 		if (mMarkerViewMap == null) {
 
@@ -422,10 +422,33 @@ public abstract class AbstractMapFragment<T extends MapModel> extends
 
 		String[] items = rawSnippet.split(";SEP;");
 
+		onInfoWindowClick(marker, items);
+	}
+
+	/**
+	 * 
+	 * This method will be used instead of onInfoWindowClick(String[] items)
+	 * 
+	 * @param marker
+	 * @param items
+	 */
+	public void onInfoWindowClick(Marker marker, String[] items) {
+
+		// This method will be used instead of onInfoWindowClick(String[] items)
+
 		onInfoWindowClick(items);
 	}
 
-	public abstract void onInfoWindowClick(String[] items);
+	/**
+	 * 
+	 * This method will removed in next version 0.0.4
+	 * 
+	 * @param items
+	 */
+	@Deprecated
+	public void onInfoWindowClick(String[] items) {
+		// This method will removed in next version 0.0.4
+	}
 
 	public void clearMap() {
 
@@ -457,5 +480,25 @@ public abstract class AbstractMapFragment<T extends MapModel> extends
 
 	public void setMarkerIconId(int iconId) {
 		mMarkerIconId = iconId;
+	}
+
+	public void setCurrentLocation(LatLng location) {
+		mCurrentLocation = location;
+	}
+
+	public LatLng getCurrentLocation() {
+		return mCurrentLocation;
+	}
+
+	public DisplayImageOptions getDisplayImageOptions() {
+		return mOptions;
+	}
+
+	public ImageLoader getImageLoader() {
+		return mImageLoader;
+	}
+
+	public LayoutInflater getLayoutInflater() {
+		return mInflater;
 	}
 }
